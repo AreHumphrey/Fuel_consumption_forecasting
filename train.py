@@ -24,6 +24,6 @@ if __name__ == "__main__":
     logging.info(f"Начало обучения. Данные: {args.data}")
     model, metrics = run_training(args.data, args.output)
     
-    logging.info("Обучение завершено!")
+
     logging.info(f"Метрики: {metrics}")
-    logging.info(f"Модель сохранена: {args.output}")
+    logging.info(f"args.output")
