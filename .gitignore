@@ -1,0 +1,33 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Data & Models (большие файлы)
+data/raw/*
+data/processed/*
+models/*.cbm
+!data/.gitkeep
+!models/.gitkeep
+
+# Environment
+.env
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
