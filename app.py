@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
 from src.model import FuelConsumptionModel
-from src.api_client import OMTFuelClient
+from src.api_client import FuelPriceClient
 from src.features import prepare_features
+from src.prices_loader import get_price
 import pandas as pd
 import os
 
@@ -14,10 +15,9 @@ fuel_client = None
 def init_app():
     global model, fuel_client
     model_path = os.getenv("MODEL_PATH", "models/catboost_ru_v1.cbm")
-    api_token = os.getenv("OMT_API_TOKEN")
     
     model = FuelConsumptionModel.load(model_path)
-    fuel_client = OMTFuelClient(token=api_token)
+    fuel_client = FuelPriceClient()
 
 
 @app.route("/health", methods=["GET"])
@@ -37,37 +37,26 @@ def predict():
     
     prediction = model.predict(X)[0]
     
-    region = data.get("region_code")
-    fuel_type = data.get("fuel_type")
+    region = data.get("region_code", "77")
+    fuel_type = data.get("fuel_type", "ai95")
     
-    cost_info = {}
-    if fuel_client and region and fuel_type:
-        prices = fuel_client.get_stations_prices(region_code=region, fuel_type=fuel_type)
-        if prices is not None and not prices.empty:
-            price = prices["price_rub_l"].values[0]
-            cost_info = {
-                "fuel_price_rub_l": round(price, 2),
-                "cost_per_100km_rub": round(prediction * price, 2)
-            }
+    price = get_price(region, fuel_type)
     
     return jsonify({
         "predicted_consumption_l100km": round(prediction, 2),
-        **cost_info
+        "fuel_price_rub_l": round(price, 2),
+        "cost_per_100km_rub": round(prediction * price, 2)
     }), 200
 
 
 @app.route("/prices", methods=["GET"])
 def get_prices():
-    region = request.args.get("region_code")
-    fuel_type = request.args.get("fuel_type")
+    region = request.args.get("region_code", "77")
     
     if not fuel_client:
         return jsonify({"error": "API client not initialized"}), 503
     
-    prices = fuel_client.get_stations_prices(region_code=region, fuel_type=fuel_type)
-    
-    if prices is None:
-        return jsonify({"error": "Failed to fetch prices"}), 500
+    prices = fuel_client.get_prices_by_region(region)
     
     return jsonify(prices.to_dict(orient="records")), 200
 

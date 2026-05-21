@@ -29,4 +29,4 @@ if __name__ == "__main__":
     df["predicted_consumption"] = predictions.round(2)
     
     df.to_csv(args.output, index=False, encoding="utf-8-sig")
-    logging.info(f"Прогнозы сохранены: {args.output}")
+    logging.info(f"✅ Прогнозы сохранены: {args.output}")
