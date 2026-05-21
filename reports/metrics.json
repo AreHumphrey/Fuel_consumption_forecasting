@@ -1,0 +1,11 @@
+{
+  "mae": 0.121,
+  "rmse": 0.193,
+  "r2": 0.9961,
+  "mdae": 0.075,
+  "mape_percent": 1.3,
+  "mean_error": 0.041,
+  "std_error": 0.189,
+  "min_error": -0.51,
+  "max_error": 1.13
+}
