@@ -11,6 +11,52 @@
 
     <div class="bg-gradient"></div>
 
+
+    <button class="help-button" id="helpBtn" aria-label="Помощь">
+        <span>?</span>
+    </button>
+
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            
+            <div class="modal-header">
+                <h2 class="modal-title">Как работает калькулятор</h2>
+            </div>
+            
+            <div class="modal-body">
+                <p class="modal-text">
+                    Этот калькулятор поможет вам <strong>рассчитать расход и стоимость топлива</strong> для автомобиля, который вы планируете купить или уже используете.
+                </p>
+                
+                <div class="modal-section">
+                    <h3 class="section-title">Что нужно указать:</h3>
+                    <ul class="feature-list">
+                        <li><span class="checkmark">✓</span> Параметры автомобиля (тип кузова, двигатель, вес)</li>
+                        <li><span class="checkmark">✓</span> Условия эксплуатации (регион, сезон, средняя скорость)</li>
+                        <li><span class="checkmark">✓</span> Интенсивность использования (поездки в неделю)</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-section">
+                    <h3 class="section-title">Что вы получите:</h3>
+                    <ul class="feature-list">
+                        <li><span class="highlight">Прогноз расхода</span> топлива в л/100 км</li>
+                        <li><span class="highlight">Актуальную цену</span> топлива в вашем регионе</li>
+                        <li><span class="highlight">Стоимость</span> поездки на 100, 450 и 1000 км</li>
+                    </ul>
+                </div>
+                
+                <div class="modal-note">
+                     Для более точного расчёта укажите реальные данные о вашем стиле вождения и условиях эксплуатации.
+                </div>
+            </div>
+            
+            <button class="modal-cta" id="modalCta">Понятно, начать расчёт</button>
+        </div>
+    </div>
+
     <div class="container">
 
         <header class="header">
@@ -27,7 +73,6 @@
             </div>
 
             <div class="form-grid">
-
 
                 <div class="form-group">
                     <label for="vehicle_type">Тип кузова</label>
@@ -63,7 +108,6 @@
                            value="150" step="1" min="50" max="500" required>
                 </div>
 
-
                 <div class="form-group">
                     <label for="vehicle_weight">Вес (кг)</label>
                     <input type="number" id="vehicle_weight" name="vehicle_weight_kg" 
@@ -75,7 +119,6 @@
                     <input type="number" id="vehicle_age" name="vehicle_age_years" 
                            value="3" step="1" min="0" max="30" required>
                 </div>
-
 
                 <div class="form-group">
                     <label for="transmission">Коробка передач</label>
@@ -99,7 +142,6 @@
 
             <div class="form-grid">
 
-                <!-- Регион -->
                 <div class="form-group">
                     <label for="region_code">Регион</label>
                     <select id="region_code" name="region_code" required>
@@ -218,7 +260,6 @@
                            value="15" min="0" max="50" required>
                 </div>
 
-
                 <div class="form-group">
                     <label for="night_ratio">Ночных поездок (%)</label>
                     <input type="range" id="night_ratio" name="night_trip_ratio_input" 
@@ -241,7 +282,6 @@
             </div>
         </form>
 
-
         <div id="resultBlock" class="result-card" style="display: none;">
             <div class="card-header">
                 <span class="step-number">03</span>
@@ -256,7 +296,6 @@
                     <div class="metric-unit">л / 100 км</div>
                 </div>
 
-     
                 <div class="metric-card">
                     <div class="metric-label">Стоимость 100 км</div>
                     <div class="metric-value" id="cost100Value">—</div>
@@ -296,6 +335,44 @@
     </div>
 
     <script>
+
+        const helpBtn = document.getElementById('helpBtn');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const modalCta = document.getElementById('modalCta');
+
+        function openModal() {
+            modalOverlay.style.display = 'flex';
+            setTimeout(() => {
+                modalOverlay.style.opacity = '1';
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.style.opacity = '0';
+            setTimeout(() => {
+                modalOverlay.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        helpBtn.addEventListener('click', openModal);
+        modalClose.addEventListener('click', closeModal);
+        modalCta.addEventListener('click', closeModal);
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.style.display === 'flex') {
+                closeModal();
+            }
+        });
+
         const form = document.getElementById('conditionsForm');
         const resultBlock = document.getElementById('resultBlock');
         const btn = document.getElementById('calcBtn');
@@ -306,7 +383,6 @@
             btn.classList.add('loading');
             btn.querySelector('.btn-text').textContent = 'Считаем...';
 
-            // Собираем данные из обоих форм
             const formData = new FormData();
             document.querySelectorAll('select, input').forEach(el => {
                 if (el.name && !el.classList.contains('loading')) {
