@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from src.model import FuelConsumptionModel
 from src.api_client import FuelPriceClient
 from src.features import prepare_features
@@ -15,9 +15,13 @@ fuel_client = None
 def init_app():
     global model, fuel_client
     model_path = os.getenv("MODEL_PATH", "models/catboost_ru_v1.cbm")
-    
     model = FuelConsumptionModel.load(model_path)
     fuel_client = FuelPriceClient()
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 
 @app.route("/health", methods=["GET"])
@@ -52,12 +56,9 @@ def predict():
 @app.route("/prices", methods=["GET"])
 def get_prices():
     region = request.args.get("region_code", "77")
-    
     if not fuel_client:
         return jsonify({"error": "API client not initialized"}), 503
-    
     prices = fuel_client.get_prices_by_region(region)
-    
     return jsonify(prices.to_dict(orient="records")), 200
 
 

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Prediction — Прогноз расхода топлива</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="bg-gradient"></div>
+
+    <div class="container">
+
+        <!-- Заголовок -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">⛽</span>
+                <span class="logo-text">Fuel Prediction</span>
+            </div>
+            <p class="subtitle">Прогноз расхода и стоимости топлива для РФ</p>
+        </header>
+
+        <!-- Форма ввода -->
+        <form id="predictForm" class="form-card" method="POST" action="/predict_form">
+            <div class="card-header">
+                <span class="step-number">01</span>
+                <h2 class="card-title">Параметры автомобиля</h2>
+            </div>
+
+            <div class="form-grid">
+
+                <!-- Тип кузова -->
+                <div class="form-group">
+                    <label for="vehicle_type">Тип кузова</label>
+                    <select id="vehicle_type" name="vehicle_type" required>
+                        <option value="sedan">🚗 Седан</option>
+                        <option value="suv">🚙 Внедорожник</option>
+                        <option value="hatchback">🚕 Хэтчбек</option>
+                        <option value="truck">🚚 Грузовик</option>
+                        <option value="commercial">🚌 Коммерческий</option>
+                    </select>
+                </div>
+
+                <!-- Тип топлива -->
+                <div class="form-group">
+                    <label for="fuel_type">Тип топлива</label>
+                    <select id="fuel_type" name="fuel_type" required>
+                        <option value="ai92">АИ-92</option>
+                        <option value="ai95" selected>АИ-95</option>
+                        <option value="diesel">Дизель</option>
+                    </select>
+                </div>
+
+                <!-- Объём двигателя -->
+                <div class="form-group">
+                    <label for="engine_volume">Объём двигателя (л)</label>
+                    <input type="number" id="engine_volume" name="engine_volume_l" 
+                           value="2.0" step="0.1" min="0.8" max="8.0" required>
+                </div>
+
+                <!-- Мощность -->
+                <div class="form-group">
+                    <label for="engine_power">Мощность (л.с.)</label>
+                    <input type="number" id="engine_power" name="engine_power_hp" 
+                           value="150" step="1" min="50" max="500" required>
+                </div>
+
+                <!-- Вес -->
+                <div class="form-group">
+                    <label for="vehicle_weight">Вес (кг)</label>
+                    <input type="number" id="vehicle_weight" name="vehicle_weight_kg" 
+                           value="1500" step="10" min="800" max="3500" required>
+                </div>
+
+                <!-- Возраст -->
+                <div class="form-group">
+                    <label for="vehicle_age">Возраст авто (лет)</label>
+                    <input type="number" id="vehicle_age" name="vehicle_age_years" 
+                           value="3" step="1" min="0" max="30" required>
+                </div>
+
+                <!-- КПП -->
+                <div class="form-group">
+                    <label for="transmission">Коробка передач</label>
+                    <select id="transmission" name="transmission" required>
+                        <option value="manual">Механика</option>
+                        <option value="automatic" selected>Автомат</option>
+                        <option value="cvt">Вариатор</option>
+                        <option value="robot">Робот</option>
+                    </select>
+                </div>
+
+            </div>
+        </form>
+
+        <!-- Условия эксплуатации -->
+        <form id="conditionsForm" class="form-card" method="POST" action="/predict_form">
+            <div class="card-header">
+                <span class="step-number">02</span>
+                <h2 class="card-title">Условия эксплуатации</h2>
+            </div>
+
+            <div class="form-grid">
+
+                <!-- Регион -->
+                <div class="form-group">
+                    <label for="region_code">Регион</label>
+                    <select id="region_code" name="region_code" required>
+                        <option value="77">Москва</option>
+                        <option value="78">Санкт-Петербург</option>
+                        <option value="50">Московская область</option>
+                        <option value="23">Краснодарский край</option>
+                        <option value="66">Свердловская область</option>
+                        <option value="54">Новосибирская область</option>
+                        <option value="14">Якутия</option>
+                        <option value="87">Чукотка</option>
+                    </select>
+                </div>
+
+                <!-- Сезон -->
+                <div class="form-group">
+                    <label for="season">Сезон</label>
+                    <select id="season" name="season" required>
+                        <option value="winter">❄️ Зима</option>
+                        <option value="spring">🌸 Весна</option>
+                        <option value="summer" selected>☀️ Лето</option>
+                        <option value="autumn">🍂 Осень</option>
+                    </select>
+                </div>
+
+                <!-- Средняя скорость -->
+                <div class="form-group">
+                    <label for="avg_speed">Средняя скорость (км/ч)</label>
+                    <input type="range" id="avg_speed" name="avg_speed_kmh" 
+                           min="10" max="120" value="50" 
+                           oninput="document.getElementById('speed_value').textContent = this.value">
+                    <div class="range-label">
+                        <span>10</span>
+                        <span class="current-value" id="speed_value">50</span>
+                        <span>120</span>
+                    </div>
+                </div>
+
+                <!-- Поездок в неделю -->
+                <div class="form-group">
+                    <label for="trips">Поездок в неделю</label>
+                    <input type="number" id="trips" name="avg_weekly_trips" 
+                           value="15" min="0" max="50" required>
+                </div>
+
+                <!-- Ночные поездки -->
+                <div class="form-group">
+                    <label for="night_ratio">Ночных поездок (%)</label>
+                    <input type="range" id="night_ratio" name="night_trip_ratio_input" 
+                           min="0" max="100" value="15"
+                           oninput="document.getElementById('night_value').textContent = this.value + '%'; document.getElementById('night_hidden').value = this.value / 100;">
+                    <div class="range-label">
+                        <span>0%</span>
+                        <span class="current-value" id="night_value">15%</span>
+                        <span>100%</span>
+                    </div>
+                    <input type="hidden" id="night_hidden" name="night_trip_ratio" value="0.15">
+                </div>
+
+            </div>
+
+            <!-- Кнопка -->
+            <div class="submit-wrapper">
+                <button type="submit" class="btn-calculate" id="calcBtn">
+                    <span class="btn-icon">🚀</span>
+                    <span class="btn-text">Рассчитать расход</span>
+                </button>
+            </div>
+        </form>
+
+        <!-- Блок результатов (скрыт по умолчанию) -->
+        <div id="resultBlock" class="result-card" style="display: none;">
+            <div class="card-header">
+                <span class="step-number">03</span>
+                <h2 class="card-title">Результаты расчёта</h2>
+            </div>
+
+            <div class="metrics-grid">
+                <!-- Расход -->
+                <div class="metric-card">
+                    <div class="metric-label">Прогноз расхода</div>
+                    <div class="metric-value" id="consumptionValue">—</div>
+                    <div class="metric-unit">л / 100 км</div>
+                </div>
+
+                <!-- Цена за 100 км -->
+                <div class="metric-card">
+                    <div class="metric-label">Стоимость 100 км</div>
+                    <div class="metric-value" id="cost100Value">—</div>
+                    <div class="metric-unit">руб.</div>
+                </div>
+
+                <!-- Цена за литр -->
+                <div class="metric-card">
+                    <div class="metric-label">Цена топлива</div>
+                    <div class="metric-value" id="priceValue">—</div>
+                    <div class="metric-unit">руб/л</div>
+                </div>
+            </div>
+
+            <!-- Дополнительная информация -->
+            <div class="trip-details">
+                <h3 class="details-title">Расчёт для разных дистанций</h3>
+                <div class="trip-grid">
+                    <div class="trip-item">
+                        <span class="trip-dist">100 км</span>
+                        <span class="trip-cost" id="trip100">—</span>
+                    </div>
+                    <div class="trip-item">
+                        <span class="trip-dist">450 км</span>
+                        <span class="trip-cost" id="trip450">—</span>
+                    </div>
+                    <div class="trip-item">
+                        <span class="trip-dist">1000 км</span>
+                        <span class="trip-cost" id="trip1000">—</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Футер -->
+        <footer class="footer">
+            <p>Fuel Prediction © 2026 · Модель на CatBoost · Цены по данным benzin-price.ru</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const form = document.getElementById('conditionsForm');
+        const resultBlock = document.getElementById('resultBlock');
+        const btn = document.getElementById('calcBtn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            btn.classList.add('loading');
+            btn.querySelector('.btn-text').textContent = 'Считаем...';
+
+            // Собираем данные из обоих форм
+            const formData = new FormData();
+            document.querySelectorAll('select, input').forEach(el => {
+                if (el.name && !el.classList.contains('loading')) {
+                    formData.append(el.name, el.value);
+                }
+            });
+
+            const data = {};
+            formData.forEach((value, key) => {
+                if (key === 'night_trip_ratio') {
+                    data[key] = parseFloat(value);
+                } else if (['engine_volume_l', 'engine_power_hp', 'vehicle_weight_kg', 
+                           'vehicle_age_years', 'avg_weekly_trips', 'avg_speed_kmh'].includes(key)) {
+                    data[key] = parseFloat(value);
+                } else {
+                    data[key] = value;
+                }
+            });
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                // Анимация появления
+                resultBlock.style.display = 'block';
+                resultBlock.style.opacity = '0';
+                resultBlock.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    resultBlock.style.transition = 'all 0.5s ease';
+                    resultBlock.style.opacity = '1';
+                    resultBlock.style.transform = 'translateY(0)';
+                }, 50);
+
+                // Заполняем метрики
+                document.getElementById('consumptionValue').textContent = result.predicted_consumption_l100km.toFixed(2);
+                document.getElementById('cost100Value').textContent = result.cost_per_100km_rub.toLocaleString('ru-RU', {minimumFractionDigits: 2});
+                document.getElementById('priceValue').textContent = result.fuel_price_rub_l.toFixed(2);
+
+                // Расчёт для дистанций
+                const cost100 = result.cost_per_100km_rub;
+                document.getElementById('trip100').textContent = cost100.toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' ₽';
+                document.getElementById('trip450').textContent = (cost100 * 4.5).toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' ₽';
+                document.getElementById('trip1000').textContent = (cost100 * 10).toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' ₽';
+
+                // Скроллим к результатам
+                resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            } catch (error) {
+                alert('Ошибка расчёта: ' + error.message);
+            } finally {
+                btn.classList.remove('loading');
+                btn.querySelector('.btn-text').textContent = 'Рассчитать расход';
+            }
+        });
+    </script>
+
+</body>
+</html>
