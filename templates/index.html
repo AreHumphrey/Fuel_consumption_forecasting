@@ -48,12 +48,13 @@
                     </ul>
                 </div>
                 
-                <div class="modal-note">
-                     Для более точного расчёта укажите реальные данные о вашем стиле вождения и условиях эксплуатации.
-                </div>
+                <!-- <div class="modal-note">
+                    <strong>💡 Совет:</strong> Для более точного расчёта укажите реальные данные о вашем стиле вождения и условиях эксплуатации.
+                </div> -->
+                
             </div>
             
-            <button class="modal-cta" id="modalCta">Понятно, начать расчёт</button>
+            <button class="modal-cta" id="modalCta">Перейти к расчету</button>
         </div>
     </div>
 
@@ -61,7 +62,7 @@
 
         <header class="header">
             <div class="logo">
-                <span class="logo-text">Fuel Prediction</span>
+                <span class="logo-text">FUEL PREDICTION</span>
             </div>
             <p class="subtitle">Прогноз расхода и стоимости топлива для РФ</p>
         </header>
@@ -329,7 +330,11 @@
         </div>
 
         <footer class="footer">
-            <p>Fuel Prediction © 2026 ·  Цены по данным benzin-price.ru</p>
+            <p>Fuel Prediction © 2026 · FEFU </p>
+            <div class="university-logo">
+                 <img src="{{ url_for('static', filename='img/dvfu_logo_footer.svg') }}" alt="Логотип FUFU">
+            </div>
+           
         </footer>
 
     </div>

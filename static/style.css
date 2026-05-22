@@ -50,7 +50,7 @@ body {
     font-size: 32px;
     font-weight: 800;
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #FFFFFF 0%, #FF7145 100%);
+    background: linear-gradient(135deg, #FFFFFF 0%, #ff9a7b 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -65,7 +65,6 @@ body {
 .form-card, .result-card {
 
     background: rgba(26, 5, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 32px;
     margin-bottom: 24px;
@@ -337,6 +336,32 @@ input[type="range"]::-webkit-slider-thumb:hover {
     color: rgba(255, 255, 255, 0.3);
 }
 
+.university-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.university-logo img {
+    max-width: 190px;
+    height: auto;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: brightness(0) invert(1);
+}
+
+.university-logo img:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .university-logo img {
+        max-width: 140px;
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 24px 16px 40px;
@@ -447,7 +472,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 .modal-content {
     background: linear-gradient(135deg, #1a0500 0%, #2a0800 100%);
-    border: 1px solid rgba(255, 113, 69, 0.3);
     border-radius: 24px;
     max-width: 600px;
     width: 100%;
@@ -565,7 +589,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 .modal-cta {
     width: 100%;
-    padding: 18px;
+    padding: 15px;
     border: none;
     border-radius: 16px;
     background: linear-gradient(135deg, #FC3B00, #FF6129);
@@ -574,12 +598,12 @@ input[type="range"]::-webkit-slider-thumb:hover {
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(252, 59, 0, 0.3);
+    box-shadow: 0 4px 10px rgba(252, 59, 0, 0.3);
 }
 
 .modal-cta:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(252, 59, 0, 0.5);
+    box-shadow: 0 8px 10px rgba(252, 59, 0, 0.3);
 }
 
 .modal-cta:active {
