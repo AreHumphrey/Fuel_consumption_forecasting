@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuel Prediction — Прогноз расхода топлива</title>
+    <title>Прогноз расхода топлива</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -13,16 +13,13 @@
 
     <div class="container">
 
-        <!-- Заголовок -->
         <header class="header">
             <div class="logo">
-                <span class="logo-icon">⛽</span>
                 <span class="logo-text">Fuel Prediction</span>
             </div>
             <p class="subtitle">Прогноз расхода и стоимости топлива для РФ</p>
         </header>
 
-        <!-- Форма ввода -->
         <form id="predictForm" class="form-card" method="POST" action="/predict_form">
             <div class="card-header">
                 <span class="step-number">01</span>
@@ -31,62 +28,61 @@
 
             <div class="form-grid">
 
-                <!-- Тип кузова -->
+
                 <div class="form-group">
                     <label for="vehicle_type">Тип кузова</label>
                     <select id="vehicle_type" name="vehicle_type" required>
-                        <option value="sedan">🚗 Седан</option>
-                        <option value="suv">🚙 Внедорожник</option>
-                        <option value="hatchback">🚕 Хэтчбек</option>
-                        <option value="truck">🚚 Грузовик</option>
-                        <option value="commercial">🚌 Коммерческий</option>
+                        <option value="" disabled selected>Выберите тип кузова</option>
+                        <option value="sedan">Седан</option>
+                        <option value="suv">Внедорожник</option>
+                        <option value="hatchback">Хэтчбек</option>
+                        <option value="truck">Грузовик</option>
+                        <option value="commercial">Коммерческий</option>
                     </select>
                 </div>
 
-                <!-- Тип топлива -->
                 <div class="form-group">
                     <label for="fuel_type">Тип топлива</label>
                     <select id="fuel_type" name="fuel_type" required>
+                        <option value="" disabled selected>Выберите тип топлива</option>
                         <option value="ai92">АИ-92</option>
-                        <option value="ai95" selected>АИ-95</option>
+                        <option value="ai95">АИ-95</option>
                         <option value="diesel">Дизель</option>
                     </select>
                 </div>
 
-                <!-- Объём двигателя -->
                 <div class="form-group">
                     <label for="engine_volume">Объём двигателя (л)</label>
                     <input type="number" id="engine_volume" name="engine_volume_l" 
                            value="2.0" step="0.1" min="0.8" max="8.0" required>
                 </div>
 
-                <!-- Мощность -->
                 <div class="form-group">
                     <label for="engine_power">Мощность (л.с.)</label>
                     <input type="number" id="engine_power" name="engine_power_hp" 
                            value="150" step="1" min="50" max="500" required>
                 </div>
 
-                <!-- Вес -->
+
                 <div class="form-group">
                     <label for="vehicle_weight">Вес (кг)</label>
                     <input type="number" id="vehicle_weight" name="vehicle_weight_kg" 
                            value="1500" step="10" min="800" max="3500" required>
                 </div>
 
-                <!-- Возраст -->
                 <div class="form-group">
                     <label for="vehicle_age">Возраст авто (лет)</label>
                     <input type="number" id="vehicle_age" name="vehicle_age_years" 
                            value="3" step="1" min="0" max="30" required>
                 </div>
 
-                <!-- КПП -->
+
                 <div class="form-group">
                     <label for="transmission">Коробка передач</label>
                     <select id="transmission" name="transmission" required>
+                        <option value="" disabled selected>Выберите тип КПП</option>
                         <option value="manual">Механика</option>
-                        <option value="automatic" selected>Автомат</option>
+                        <option value="automatic">Автомат</option>
                         <option value="cvt">Вариатор</option>
                         <option value="robot">Робот</option>
                     </select>
@@ -95,7 +91,6 @@
             </div>
         </form>
 
-        <!-- Условия эксплуатации -->
         <form id="conditionsForm" class="form-card" method="POST" action="/predict_form">
             <div class="card-header">
                 <span class="step-number">02</span>
@@ -108,29 +103,103 @@
                 <div class="form-group">
                     <label for="region_code">Регион</label>
                     <select id="region_code" name="region_code" required>
+                        <option value="" disabled selected>Выберите регион</option>
+                        <option value="01">Республика Адыгея</option>
+                        <option value="02">Республика Башкортостан</option>
+                        <option value="03">Республика Бурятия</option>
+                        <option value="04">Республика Алтай</option>
+                        <option value="05">Республика Дагестан</option>
+                        <option value="06">Республика Ингушетия</option>
+                        <option value="07">Кабардино-Балкарская Республика</option>
+                        <option value="08">Республика Калмыкия</option>
+                        <option value="09">Карачаево-Черкесская Республика</option>
+                        <option value="10">Республика Карелия</option>
+                        <option value="11">Республика Коми</option>
+                        <option value="12">Республика Марий Эл</option>
+                        <option value="13">Республика Мордовия</option>
+                        <option value="14">Республика Саха (Якутия)</option>
+                        <option value="15">Республика Северная Осетия — Алания</option>
+                        <option value="16">Республика Татарстан</option>
+                        <option value="17">Республика Тыва</option>
+                        <option value="18">Удмуртская Республика</option>
+                        <option value="19">Республика Хакасия</option>
+                        <option value="20">Чеченская Республика</option>
+                        <option value="21">Чувашская Республика — Чувашия</option>
+                        <option value="23">Краснодарский край</option>
+                        <option value="24">Красноярский край</option>
+                        <option value="25">Приморский край</option>
+                        <option value="26">Ставропольский край</option>
+                        <option value="27">Хабаровский край</option>
+                        <option value="28">Амурская область</option>
+                        <option value="29">Архангельская область</option>
+                        <option value="30">Астраханская область</option>
+                        <option value="31">Белгородская область</option>
+                        <option value="32">Брянская область</option>
+                        <option value="33">Владимирская область</option>
+                        <option value="34">Волгоградская область</option>
+                        <option value="35">Вологодская область</option>
+                        <option value="36">Воронежская область</option>
+                        <option value="37">Ивановская область</option>
+                        <option value="38">Иркутская область</option>
+                        <option value="39">Калининградская область</option>
+                        <option value="40">Калужская область</option>
+                        <option value="41">Камчатский край</option>
+                        <option value="42">Кемеровская область — Кузбасс</option>
+                        <option value="43">Кировская область</option>
+                        <option value="44">Костромская область</option>
+                        <option value="45">Курганская область</option>
+                        <option value="46">Курская область</option>
+                        <option value="47">Ленинградская область</option>
+                        <option value="48">Липецкая область</option>
+                        <option value="49">Магаданская область</option>
+                        <option value="50">Московская область</option>
+                        <option value="51">Мурманская область</option>
+                        <option value="52">Нижегородская область</option>
+                        <option value="53">Новгородская область</option>
+                        <option value="54">Новосибирская область</option>
+                        <option value="55">Омская область</option>
+                        <option value="56">Оренбургская область</option>
+                        <option value="57">Орловская область</option>
+                        <option value="58">Пензенская область</option>
+                        <option value="59">Пермский край</option>
+                        <option value="60">Псковская область</option>
+                        <option value="61">Ростовская область</option>
+                        <option value="62">Рязанская область</option>
+                        <option value="63">Самарская область</option>
+                        <option value="64">Саратовская область</option>
+                        <option value="65">Сахалинская область</option>
+                        <option value="66">Свердловская область</option>
+                        <option value="67">Смоленская область</option>
+                        <option value="68">Тамбовская область</option>
+                        <option value="69">Тверская область</option>
+                        <option value="70">Томская область</option>
+                        <option value="71">Тульская область</option>
+                        <option value="72">Тюменская область</option>
+                        <option value="73">Ульяновская область</option>
+                        <option value="74">Челябинская область</option>
+                        <option value="75">Забайкальский край</option>
+                        <option value="76">Ярославская область</option>
                         <option value="77">Москва</option>
                         <option value="78">Санкт-Петербург</option>
-                        <option value="50">Московская область</option>
-                        <option value="23">Краснодарский край</option>
-                        <option value="66">Свердловская область</option>
-                        <option value="54">Новосибирская область</option>
-                        <option value="14">Якутия</option>
-                        <option value="87">Чукотка</option>
+                        <option value="79">Еврейская автономная область</option>
+                        <option value="83">Ненецкий автономный округ</option>
+                        <option value="86">Ханты-Мансийский автономный округ — Югра</option>
+                        <option value="87">Чукотский автономный округ</option>
+                        <option value="89">Ямало-Ненецкий автономный округ</option>
                     </select>
                 </div>
 
-                <!-- Сезон -->
                 <div class="form-group">
                     <label for="season">Сезон</label>
                     <select id="season" name="season" required>
-                        <option value="winter">❄️ Зима</option>
-                        <option value="spring">🌸 Весна</option>
-                        <option value="summer" selected>☀️ Лето</option>
-                        <option value="autumn">🍂 Осень</option>
+                        <option value="" disabled selected>Выберите сезон</option>
+                        <option value="winter">Зима</option>
+                        <option value="spring">Весна</option>
+                        <option value="summer">Лето</option>
+                        <option value="autumn">Осень</option>
                     </select>
                 </div>
 
-                <!-- Средняя скорость -->
                 <div class="form-group">
                     <label for="avg_speed">Средняя скорость (км/ч)</label>
                     <input type="range" id="avg_speed" name="avg_speed_kmh" 
@@ -143,14 +212,13 @@
                     </div>
                 </div>
 
-                <!-- Поездок в неделю -->
                 <div class="form-group">
                     <label for="trips">Поездок в неделю</label>
                     <input type="number" id="trips" name="avg_weekly_trips" 
                            value="15" min="0" max="50" required>
                 </div>
 
-                <!-- Ночные поездки -->
+
                 <div class="form-group">
                     <label for="night_ratio">Ночных поездок (%)</label>
                     <input type="range" id="night_ratio" name="night_trip_ratio_input" 
@@ -166,16 +234,14 @@
 
             </div>
 
-            <!-- Кнопка -->
             <div class="submit-wrapper">
                 <button type="submit" class="btn-calculate" id="calcBtn">
-                    <span class="btn-icon">🚀</span>
                     <span class="btn-text">Рассчитать расход</span>
                 </button>
             </div>
         </form>
 
-        <!-- Блок результатов (скрыт по умолчанию) -->
+
         <div id="resultBlock" class="result-card" style="display: none;">
             <div class="card-header">
                 <span class="step-number">03</span>
@@ -183,21 +249,20 @@
             </div>
 
             <div class="metrics-grid">
-                <!-- Расход -->
+
                 <div class="metric-card">
                     <div class="metric-label">Прогноз расхода</div>
                     <div class="metric-value" id="consumptionValue">—</div>
                     <div class="metric-unit">л / 100 км</div>
                 </div>
 
-                <!-- Цена за 100 км -->
+     
                 <div class="metric-card">
                     <div class="metric-label">Стоимость 100 км</div>
                     <div class="metric-value" id="cost100Value">—</div>
                     <div class="metric-unit">руб.</div>
                 </div>
 
-                <!-- Цена за литр -->
                 <div class="metric-card">
                     <div class="metric-label">Цена топлива</div>
                     <div class="metric-value" id="priceValue">—</div>
@@ -205,7 +270,6 @@
                 </div>
             </div>
 
-            <!-- Дополнительная информация -->
             <div class="trip-details">
                 <h3 class="details-title">Расчёт для разных дистанций</h3>
                 <div class="trip-grid">
@@ -225,9 +289,8 @@
             </div>
         </div>
 
-        <!-- Футер -->
         <footer class="footer">
-            <p>Fuel Prediction © 2026 · Модель на CatBoost · Цены по данным benzin-price.ru</p>
+            <p>Fuel Prediction © 2026 ·  Цены по данным benzin-price.ru</p>
         </footer>
 
     </div>
@@ -272,7 +335,6 @@
 
                 const result = await response.json();
 
-                // Анимация появления
                 resultBlock.style.display = 'block';
                 resultBlock.style.opacity = '0';
                 resultBlock.style.transform = 'translateY(20px)';
@@ -283,18 +345,15 @@
                     resultBlock.style.transform = 'translateY(0)';
                 }, 50);
 
-                // Заполняем метрики
                 document.getElementById('consumptionValue').textContent = result.predicted_consumption_l100km.toFixed(2);
                 document.getElementById('cost100Value').textContent = result.cost_per_100km_rub.toLocaleString('ru-RU', {minimumFractionDigits: 2});
                 document.getElementById('priceValue').textContent = result.fuel_price_rub_l.toFixed(2);
 
-                // Расчёт для дистанций
                 const cost100 = result.cost_per_100km_rub;
                 document.getElementById('trip100').textContent = cost100.toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' ₽';
                 document.getElementById('trip450').textContent = (cost100 * 4.5).toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' ₽';
                 document.getElementById('trip1000').textContent = (cost100 * 10).toLocaleString('ru-RU', {minimumFractionDigits: 0, maximumFractionDigits: 0}) + ' ₽';
 
-                // Скроллим к результатам
                 resultBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
             } catch (error) {
