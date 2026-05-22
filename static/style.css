@@ -580,7 +580,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 .modal-note {
     background: rgba(255, 113, 69, 0.1);
-    border-left: 4px solid #FF7145;
     padding: 16px 20px;
     border-radius: 8px;
     font-size: 14px;
