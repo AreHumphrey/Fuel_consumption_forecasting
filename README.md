@@ -81,6 +81,6 @@ CATBOOST_PARAMS = {
 
 
 #### Метрики в деталях
- [metrics.json](reports/metrics.json) — полные метрики в формате JSON
+ [metrics.json](reports/metrics.json) - полные метрики в формате JSON
 ## Ссылка на сайт с ценами 
 [benzin-price.ru](https://www.benzin-price.ru/)
